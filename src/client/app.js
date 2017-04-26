@@ -9,6 +9,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 
 import './assets/resets.scss';
+import './assets/main.scss';
 import router from './router';
 import Main from './containers/Main.vue';
 

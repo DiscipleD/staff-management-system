@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "autoprefixer": "^6.7.7",
+    "axios": "^0.16.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^6.0.2",
@@ -50,6 +51,7 @@
     "koa-static": "^2.1.0",
     "koa-webpack-middleware": "^1.0.3",
     "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "mongoose": "^4.9.5",
     "mongoose-auto-increment": "^5.0.1",
     "node-sass": "^4.5.2",
