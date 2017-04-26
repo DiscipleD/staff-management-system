@@ -9,14 +9,16 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 
 import './assets/resets.scss';
-import Layout from './containers/Layout.vue';
+import router from './router';
+import Main from './containers/Main.vue';
 
 Vue.use(ElementUI);
 
 const app = new Vue({
+	router,
 	render() {
 		return (
-			<Layout />
+			<Main />
 		);
 	}
 });

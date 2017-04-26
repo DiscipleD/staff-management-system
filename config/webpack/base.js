@@ -25,8 +25,8 @@ const webpackConfig = {
 			'common': SOURCE_PATH + '/client/common',
 			'components': SOURCE_PATH + '/client/components',
 			'containers': SOURCE_PATH + '/client/containers',
-			'vuexModule': SOURCE_PATH + '/client/vuex/module'
-		}
+		},
+		extensions: ['.js', '.vue', '.json']
 	},
 	plugins: [
 		// the plugin need be added in loader
