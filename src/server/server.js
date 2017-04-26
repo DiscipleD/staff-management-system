@@ -8,6 +8,7 @@ import mount from 'koa-mount';
 import rewrite from 'koa-rewrite';
 
 import * as middleware from './middleware';
+import appServer from './appServer';
 import staticServer from './staticServer';
 
 const app = new Koa();
@@ -19,9 +20,10 @@ app.use(middleware.pageNotFound);
 app.use(middleware.responseTime);
 app.use(middleware.logger);
 
-app.use(rewrite(/^\/[^(.|_)]*$/, '/'));
+app.use(mount(appServer));
 
-app.use(mount('/', staticServer));
+app.use(rewrite(/^\/[^(.|_)]*$/, '/'));
+app.use(mount(staticServer));
 
 app.on('error', function(err){
 	console.log('server error', err);
