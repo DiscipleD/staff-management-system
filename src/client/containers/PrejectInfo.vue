@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<div>
 		<header><h3>项目情况录入</h3></header>
 		<div class="section-content">
 			<el-form class="content-form" :inline="true" :model="project" label-width="100px">
@@ -84,7 +84,7 @@
 				</el-table-column>
 			</el-table>
 		</div>
-	</section>
+	</div>
 </template>
 
 <style lang="sass" scoped>

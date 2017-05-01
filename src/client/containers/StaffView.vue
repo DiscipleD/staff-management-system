@@ -1,3 +1,3 @@
 <template>
-    <section>sv</section>
+    <div>sv</div>
 </template>

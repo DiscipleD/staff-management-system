@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<div>
 		<header><h3>人员情况录入</h3></header>
 		<div class="section-content">
 			<el-form class="content-form" :inline="true" :model="staff" label-width="60px">
@@ -28,7 +28,7 @@
 				</el-table-column>
 			</el-table>
 		</div>
-	</section>
+	</div>
 </template>
 
 <style lang="sass" scoped>
