@@ -116,11 +116,9 @@
 					// 为同一人员的记录按进入项目时间排序
 					Object.keys(projectMembersInfo).map(key => projectMembersInfo[key].sort((prev, curr) => prev.startDate > curr.startDate));
 
+					// 生成同一项目的 series
 					series = series.concat(Object.keys(projectMembersInfo)
-						.reduce((series, key) => {
-							const result = series.concat(this.createSeries(category, projectMembersInfo[key], startDate));
-							return result;
-						}, []));
+						.reduce((series, key) => series.concat(this.createSeries(category, projectMembersInfo[key], startDate)), []));
 				});
 
 				return {
