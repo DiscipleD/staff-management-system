@@ -16,6 +16,7 @@ const ProjectSchema = new Schema({
 	startDate: String,
 	endDate: String,
 	url: String,
+	target: String,
 	members: [{
 		memberId: Number,
 		startDate: String,

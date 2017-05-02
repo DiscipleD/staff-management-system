@@ -19,12 +19,15 @@
 							type="date"
 							placeholder="选择日期">
 					</el-date-picker>
-				</el-form-item>
+				</el-form-item><br>
 				<el-form-item label="项目负责人">
 					<el-input v-model="project.charger"></el-input>
 				</el-form-item>
 				<el-form-item label="项目 URL">
 					<el-input v-model="project.url"></el-input>
+				</el-form-item><br>
+				<el-form-item label="项目目标">
+					<el-input type="textarea" v-model="project.target" style="width: 480px"></el-input>
 				</el-form-item>
 
 				<div>
@@ -77,6 +80,7 @@
 				<el-table-column prop="endDate" label="项目结束日期"></el-table-column>
 				<el-table-column prop="charger" label="负责人"></el-table-column>
 				<el-table-column prop="url" label="URL"></el-table-column>
+				<el-table-column prop="target" label="项目目标"></el-table-column>
 				<el-table-column label="操作">
 					<template scope="scope">
 						<el-button @click="remove(scope.$index)" type="text" size="small">删除</el-button>
@@ -130,6 +134,7 @@
 		endDate: '',
 		charger: '',
 		url: '',
+		target: '',
 		members: [{ ...defaultMember }]
 	};
 

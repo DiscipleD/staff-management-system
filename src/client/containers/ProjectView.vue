@@ -50,7 +50,6 @@
 			createSeriesItem: function(category, name, stack, endDate, isBlank) {
 				const BLANK_COLOR = 'rgba(0,0,0,0)';
 				const data = new Array(category.length);
-				data.fill(null);
 				data[category.index] = {
 					value: new Date(endDate),
 					caption: name
