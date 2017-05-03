@@ -119,8 +119,8 @@
 </style>
 
 <script>
-	import axios from 'axios';
 	import moment from 'moment';
+	import { ProjectResource, StaffResource } from '../common/resource';
 
 	const defaultMember = {
 		memberId: null,
@@ -152,17 +152,15 @@
 		},
 		methods: {
 			query: function() {
-				axios
-					.get('/projects')
-					.then(res => {
-						this.tableData = res.data;
+				ProjectResource.query()
+					.then(data => {
+						this.tableData = data;
 					});
 			},
 			queryStaff: function() {
-				axios
-					.get('/staffs')
-					.then(res => {
-						this.staffList = res.data;
+				StaffResource.query()
+					.then(data => {
+						this.staffList = data;
 					});
 			},
 			create: function() {
@@ -176,8 +174,8 @@
 						endDate: moment(member.endDate).format('YYYY-MM-DD')
 					}))
 				};
-				axios
-					.post(`/projects`, params)
+
+				ProjectResource.create(params)
 					.then(() => this.$message.success('添加成功'))
 					.then(() => (this.project = { ...defaultProject, members: [{ ...defaultMember }] }))
 					.catch(() => this.$message.error('添加失败'))
@@ -185,8 +183,7 @@
 			},
 			remove: function(index) {
 				const projectId = this.tableData[index]._id;
-				axios
-					.delete(`/projects/${projectId}`)
+				ProjectResource.create(projectId)
 					.then(() => this.$message.success('删除成功'))
 					.then(this.query);
 			},

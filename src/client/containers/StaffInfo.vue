@@ -48,7 +48,7 @@
 </style>
 
 <script>
-	import axios from 'axios';
+	import { StaffResource } from '../common/resource';
 
 	const defaultStaff = {
 		name: '',
@@ -68,15 +68,15 @@
 		},
 		methods: {
 			query: function() {
-				axios
-					.get('/staffs')
-					.then(res => {
-						this.tableData = res.data;
+				StaffResource
+					.query()
+					.then(data => {
+						this.tableData = data;
 					});
 			},
 			create: function() {
-				axios
-					.post(`/staffs`, this.staff)
+				StaffResource
+					.create(this.staff)
 					.then(() => this.$message.success('添加成功'))
 					.then(() => (this.staff = { ...defaultStaff }))
 					.catch(() => this.$message.error('添加失败'))
@@ -84,8 +84,8 @@
 			},
 			remove: function(index) {
 				const staffId = this.tableData[index]._id;
-				axios
-					.delete(`/staffs/${staffId}`)
+				StaffResource
+					.remove(staffId)
 					.then(() => this.$message.success('删除成功'))
 					.then(this.query);
 			}

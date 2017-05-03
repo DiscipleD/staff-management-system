@@ -23,7 +23,7 @@ app.use(middleware.logger);
 app.use(mount(appServer));
 
 app.use(rewrite(/^\/[^(.|_)]*$/, `${publicPath}/`));
-app.use(mount(staticServer));
+app.use(mount(publicPath, staticServer));
 
 app.on('error', function(err){
 	console.log('server error', err);

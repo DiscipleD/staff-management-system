@@ -21,7 +21,7 @@
 	import 'echarts/lib/component/title';
 	import 'echarts/lib/component/tooltip';
 
-	import { Project, Staff } from '../common/resource';
+	import { ProjectResource, StaffResource } from '../common/resource';
 	import StaffService from '../services/StaffService';
 
 	export default {
@@ -37,7 +37,7 @@
 		methods: {
 			init: function() {
 				this.projectChart = echarts.init(document.getElementById('project-chart'));
-				Promise.all([Project.query(this.queryParams), Staff.query()])
+				Promise.all([ProjectResource.query(this.queryParams), StaffResource.query()])
 					.then(([projectInfo, staffList]) => {
 						this.staffList = staffList;
 						return this.generatorChartOptions(projectInfo, this.queryParams.startDate, this.queryParams.endDate);

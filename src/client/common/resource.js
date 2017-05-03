@@ -6,16 +6,30 @@
 
 import axios from 'axios';
 
-const Project = {
+const URI_PREFIX = '/staff-management';
+
+const ProjectResource = {
 	query: params => axios
-		.get('/projects', params)
-		.then(res => res.data)
+		.get(`${URI_PREFIX}/projects`, params)
+		.then(res => res.data),
+
+	create: project => axios
+		.post(`${URI_PREFIX}/projects`, project),
+
+	remove: id => axios
+		.delete(`${URI_PREFIX}/projects/${id}`)
 };
 
-const Staff = {
+const StaffResource = {
 	query: params => axios
-		.get('/staffs', params)
-		.then(res => res.data)
+		.get(`${URI_PREFIX}/staffs`, params)
+		.then(res => res.data),
+
+	create: staff => axios
+		.post(`${URI_PREFIX}/staffs`, staff),
+
+	remove: id => axios
+		.delete(`${URI_PREFIX}/staffs/${id}`)
 };
 
-export { Project, Staff };
+export { ProjectResource, StaffResource };
