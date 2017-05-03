@@ -81,7 +81,7 @@
     "build": "NODE_ENV=production npm run build:server && NODE_ENV=production npm run build:client",
     "build:client": "webpack --config config/webpack/entry.js",
     "build:server": "babel src/server -d build/server --no-babelrc --presets=es2015,stage-3",
-    "start:server": "NODE_ENV=production pm2 start build/server/server.js --name blog -i 2 --output /var/log/node/out.log --error /var/log/node/error.log --no-daemon",
-    "stop:server": "pm2 stop blog"
+    "start:server": "NODE_ENV=production pm2 start build/server/server.js --name staff-management",
+    "stop:server": "pm2 stop staff-management"
   }
 }

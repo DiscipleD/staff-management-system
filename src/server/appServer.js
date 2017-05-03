@@ -7,6 +7,7 @@
 import Koa from 'koa';
 import KoaRouter from 'koa-router';
 
+import { publicPath } from './config';
 import { createDbConnection } from './db/connection';
 createDbConnection();
 
@@ -16,16 +17,16 @@ const app = new Koa();
 const router = new KoaRouter();
 
 // staff
-router.get('/staffs', StaffController.find);
-router.get('/staffs/:id', StaffController.findById);
-router.post('/staffs', StaffController.save);
-router.del('/staffs/:id', StaffController.removeById);
+router.get(`${publicPath}/staffs`, StaffController.find);
+router.get(`${publicPath}/staffs/:id`, StaffController.findById);
+router.post(`${publicPath}/staffs`, StaffController.save);
+router.del(`${publicPath}/staffs/:id`, StaffController.removeById);
 
 // project
-router.get('/projects', ProjectController.find);
-router.get('/projects/:id', ProjectController.findById);
-router.post('/projects', ProjectController.save);
-router.del('/projects/:id', ProjectController.removeById);
+router.get(`${publicPath}/projects`, ProjectController.find);
+router.get(`${publicPath}/projects/:id`, ProjectController.findById);
+router.post(`${publicPath}/projects`, ProjectController.save);
+router.del(`${publicPath}/projects/:id`, ProjectController.removeById);
 
 app
 	.use(router.routes())

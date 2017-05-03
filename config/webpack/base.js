@@ -8,7 +8,7 @@ const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const SOURCE_PATH = path.join(__dirname, '../../src');
-const PUBLIC_PATH = '/';
+const PUBLIC_PATH = '/staff-management/';
 const DIST_PATH = path.join(__dirname, '../../build/client');
 
 const webpackConfig = {
