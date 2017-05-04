@@ -183,7 +183,7 @@
 			},
 			remove: function(index) {
 				const projectId = this.tableData[index]._id;
-				ProjectResource.create(projectId)
+				ProjectResource.remove(projectId)
 					.then(() => this.$message.success('删除成功'))
 					.then(this.query);
 			},
