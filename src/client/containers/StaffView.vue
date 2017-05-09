@@ -25,7 +25,8 @@
 
 	export default {
 		data: () => ({
-			projectChart: null,
+			staffChart: null,
+			staffChartDom: null,
 			projectInfo: [],
 			staffList: [],
 			queryParams: {
@@ -35,16 +36,21 @@
 		}),
 		methods: {
 			init: function() {
-				this.projectChart = echarts.init(document.getElementById('staff-chart'));
+				this.staffChartDom = document.getElementById('staff-chart');
 				Promise.all([ProjectResource.query(this.queryParams), StaffResource.query()])
 					.then(([projectInfo, staffList]) => {
 						this.staffList = staffList;
+
+						// 拉长画布
+						if (staffList.length && projectInfo.length) this.staffChartDom.style.height = `${staffList.length * projectInfo.length * 40}px`;
+
 						return this.generatorChartOptions(staffList, projectInfo, this.queryParams.startDate, this.queryParams.endDate);
 					})
 					.then(this.drawChart);
 			},
 			drawChart: function(option) {
-				this.projectChart.setOption(option);
+				this.staffChart = echarts.init(this.staffChartDom);
+				this.staffChart.setOption(option);
 			},
 			createSeriesItem: function(category, name, stack, endDate, isBlank) {
 				const BLANK_COLOR = 'rgba(0,0,0,0)';

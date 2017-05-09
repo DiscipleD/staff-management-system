@@ -27,6 +27,7 @@
 	export default {
 		data: () => ({
 			projectChart: null,
+			projectChartDom: null,
 			projectInfo: [],
 			staffList: [],
 			queryParams: {
@@ -36,15 +37,19 @@
 		}),
 		methods: {
 			init: function() {
-				this.projectChart = echarts.init(document.getElementById('project-chart'));
+				this.projectChartDom = document.getElementById('project-chart');
 				Promise.all([ProjectResource.query(this.queryParams), StaffResource.query()])
 					.then(([projectInfo, staffList]) => {
 						this.staffList = staffList;
+
+						// 拉长画布
+						if (staffList.length && projectInfo.length) this.projectChartDom.style.height = `${staffList.length * projectInfo.length * 40}px`;
 						return this.generatorChartOptions(projectInfo, this.queryParams.startDate, this.queryParams.endDate);
 					})
 					.then(this.drawChart);
 			},
 			drawChart: function(option) {
+				this.projectChart = echarts.init(this.projectChartDom);
 				this.projectChart.setOption(option);
 			},
 			createSeriesItem: function(category, name, stack, endDate, isBlank) {
