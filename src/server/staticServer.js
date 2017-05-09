@@ -13,7 +13,6 @@ if (process.env.NODE_ENV !== 'production') {
 	const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware');
 
 	const compile = webpack(config);
-
 	app.use(devMiddleware(compile, {
 		// display no info to console (only warnings and errors)
 		noInfo: false,
@@ -22,7 +21,7 @@ if (process.env.NODE_ENV !== 'production') {
 			cached: false
 		},
 		contentBase: config.output.path,
-		publicPath: config.output.publicPath
+		publicPath: '/' // public path 已在上一层转发，此处不能再设置
 	}));
 	app.use(hotMiddleware(compile, {}));
 }
