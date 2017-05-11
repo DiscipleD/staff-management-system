@@ -23,6 +23,8 @@
 
 	import { ProjectResource, StaffResource } from '../common/resource';
 
+	const MAX_CANVAS_HEIGHT = 16360;
+
 	export default {
 		data: () => ({
 			staffChart: null,
@@ -42,7 +44,11 @@
 						this.staffList = staffList;
 
 						// 拉长画布
-						if (staffList.length && projectInfo.length) this.staffChartDom.style.height = `${staffList.length * projectInfo.length * 40}px`;
+						// 拉长画布
+						if (staffList.length && projectInfo.length) {
+							const expectHeight = staffList.length * projectInfo.length * 40;
+							this.staffChartDom.style.height = `${expectHeight < MAX_CANVAS_HEIGHT ? expectHeight : MAX_CANVAS_HEIGHT}px`;
+						}
 
 						return this.generatorChartOptions(staffList, projectInfo, this.queryParams.startDate, this.queryParams.endDate);
 					})
