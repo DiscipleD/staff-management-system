@@ -134,14 +134,14 @@
 		endDate: '',
 		charger: '',
 		url: '',
-		target: '',
-		members: [{ ...defaultMember }]
+		target: ''
 	};
 
 	export default {
 		data: () => ({
 			project: {
-				...defaultProject
+				...defaultProject,
+				members: [{ ...defaultMember }]
 			},
 			tableData: [],
 			staffList: []

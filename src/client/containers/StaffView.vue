@@ -23,7 +23,7 @@
 
 	import { ProjectResource, StaffResource } from '../common/resource';
 
-	const MAX_CANVAS_HEIGHT = 16360;
+	const MAX_CANVAS_HEIGHT = 12000;
 
 	export default {
 		data: () => ({
@@ -43,7 +43,6 @@
 					.then(([projectInfo, staffList]) => {
 						this.staffList = staffList;
 
-						// 拉长画布
 						// 拉长画布
 						if (staffList.length && projectInfo.length) {
 							const expectHeight = staffList.length * projectInfo.length * 40;

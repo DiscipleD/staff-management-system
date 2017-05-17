@@ -24,7 +24,7 @@
 	import { ProjectResource, StaffResource } from '../common/resource';
 	import StaffService from '../services/StaffService';
 
-	const MAX_CANVAS_HEIGHT = 16360;
+	const MAX_CANVAS_HEIGHT = 12000;
 
 	export default {
 		data: () => ({

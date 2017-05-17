@@ -8,6 +8,7 @@ const CleanPlugin = require('clean-webpack-plugin');
 
 const baseWebpackConfig = require('./base');
 const isProduction = process.env.NODE_ENV === 'production';
+const PUBLIC_PATH = '/staff-management/';
 const SOURCE_PATH = path.join(__dirname, '../../src');
 const DIST_PATH = path.join(__dirname, '../../build/client');
 
@@ -58,7 +59,7 @@ if (isProduction) {
 		sourceMap: true
 	}));
 } else {
-	webpackConfig.entry['app'].unshift('webpack-hot-middleware/client?path=/__webpack_hmr&reload=true&timeout=20000');
+	webpackConfig.entry['app'].unshift(`webpack-hot-middleware/client?path=${PUBLIC_PATH}__webpack_hmr&reload=true&timeout=20000`);
 	webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 }
 
