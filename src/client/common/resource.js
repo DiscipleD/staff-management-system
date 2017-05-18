@@ -10,7 +10,7 @@ const URI_PREFIX = '/staff-management';
 
 const ProjectResource = {
 	query: params => axios
-		.get(`${URI_PREFIX}/projects`, params)
+		.get(`${URI_PREFIX}/projects`, { params })
 		.then(res => res.data),
 
 	create: project => axios
@@ -22,7 +22,7 @@ const ProjectResource = {
 
 const StaffResource = {
 	query: params => axios
-		.get(`${URI_PREFIX}/staffs`, params)
+		.get(`${URI_PREFIX}/staffs`, { params })
 		.then(res => res.data),
 
 	create: staff => axios

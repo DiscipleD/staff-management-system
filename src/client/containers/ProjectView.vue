@@ -1,5 +1,26 @@
 <template>
 	<div class="project-view">
+		<el-form class="search-block" :model="project" label-width="100px">
+			<el-form-item label="项目名称">
+				<el-select v-model="queryParams.projectIds" multiple>
+					<el-option v-for="project in projectList" :label="project.name" :value="project._id"></el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="项目时间">
+				<el-date-picker
+						v-model="queryParams.dateRange"
+						type="daterange"
+						align="right"
+						placeholder="选择日期范围"
+						:picker-options="dateRangeOption">
+				</el-date-picker>
+			</el-form-item>
+
+			<div class="search-button-block">
+				<el-button type="primary" @click="search">筛选</el-button>
+				<el-button type="primary" @click="reset">清空</el-button>
+			</div>
+		</el-form>
 		<div id="project-chart"></div>
 	</div>
 </template>
@@ -8,8 +29,20 @@
 	.project-view {
 		height: 100%;
 
+		.search-block {
+			display: flex;
+			justify-content: center;
+			margin-top: 20px;
+
+			.search-button-block {
+				margin-left: 20px;
+				width: 140px;
+				flex: none;
+			}
+		}
+
 		#project-chart {
-			height: 100%;
+			height: 500px;
 		}
 	}
 </style>
@@ -25,33 +58,81 @@
 	import StaffService from '../services/StaffService';
 
 	const MAX_CANVAS_HEIGHT = 12000;
+	const dateRangeOption = {
+		shortcuts: [{
+			text: '最近一周',
+			onClick(picker) {
+				const end = new Date();
+				const start = new Date();
+				start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+				picker.$emit('pick', [start, end]);
+			}
+		}, {
+			text: '最近一个月',
+			onClick(picker) {
+				const end = new Date();
+				const start = new Date();
+				start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+				picker.$emit('pick', [start, end]);
+			}
+		}, {
+			text: '最近三个月',
+			onClick(picker) {
+				const end = new Date();
+				const start = new Date();
+				start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+				picker.$emit('pick', [start, end]);
+			}
+		}]
+	};
 
 	export default {
 		data: () => ({
+			dateRangeOption,
 			projectChart: null,
 			projectChartDom: null,
 			projectInfo: [],
+			projectList: [],
 			staffList: [],
 			queryParams: {
-				startDate: '2017-01-01',
-				endDate: moment().format('YYYY-MM-DD')
+				dateRange: [moment().subtract(30, 'days').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')],
+				projectIds: []
 			}
 		}),
 		methods: {
 			init: function() {
 				this.projectChartDom = document.getElementById('project-chart');
-				Promise.all([ProjectResource.query(this.queryParams), StaffResource.query()])
-					.then(([projectInfo, staffList]) => {
+				Promise.all([ProjectResource.query(), StaffResource.query()])
+					.then(([projectList, staffList]) => {
 						this.staffList = staffList;
-
+						this.projectList = projectList;
+					})
+					.then(this.search);
+			},
+			search: function() {
+				const [startDate, endDate] = this.queryParams.dateRange;
+				const params = {
+					startDate: startDate ? moment(startDate).format('YYYY-MM-DD') : '',
+					endDate: endDate ? moment(endDate).format('YYYY-MM-DD') : '',
+					projectIds: this.queryParams.projectIds.toString()
+				};
+				ProjectResource
+					.query(params)
+					.then(projectInfo => {
 						// 拉长画布
-						if (staffList.length && projectInfo.length) {
-							const expectHeight = staffList.length * projectInfo.length * 40;
+						if (this.staffList.length && projectInfo.length) {
+							const expectHeight = this.staffList.length * projectInfo.length * 40;
 							this.projectChartDom.style.height = `${expectHeight < MAX_CANVAS_HEIGHT ? expectHeight : MAX_CANVAS_HEIGHT}px`;
 						}
-						return this.generatorChartOptions(projectInfo, this.queryParams.startDate, this.queryParams.endDate);
+						return this.generatorChartOptions(projectInfo, startDate, endDate);
 					})
 					.then(this.drawChart);
+			},
+			reset: function() {
+				this.queryParams = {
+					dateRange: [],
+					projectIds: []
+				};
 			},
 			drawChart: function(option) {
 				this.projectChart = echarts.init(this.projectChartDom);

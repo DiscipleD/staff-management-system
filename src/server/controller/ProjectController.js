@@ -23,8 +23,11 @@ class ProjectController {
 	}
 
 	async find(ctx) {
+		const params = ctx.query;
+		if (params.projectIds || params.projectIds === 0) params._id = params.projectIds.split(',');
+		delete params.projectIds;
 		await ProjectService
-			.findAll()
+			.findAll(params)
 			.then(data => {
 				ctx.status = 200;
 				ctx.body = data;
