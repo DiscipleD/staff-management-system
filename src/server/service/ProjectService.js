@@ -16,27 +16,7 @@ class ProjectService {
 		}
 	}
 
-	findAll(params) {
-		const query = {};
-		for (let attr in params) {
-			if (params[attr] !== undefined && params[attr] !== '') {
-				let condition = {};
-				switch(attr) {
-					case '_id':
-						condition.$in = params[attr];
-						break;
-					case 'startDate':
-						condition.$gte = params[attr];
-						break;
-					case 'endDate':
-						condition.$lte = params[attr];
-						break;
-					default:
-						break;
-				}
-				query[attr] = condition;
-			}
-		}
+	findAll(query) {
 		return ProjectModel.find(query);
 	}
 

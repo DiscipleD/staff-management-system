@@ -24,10 +24,38 @@ class ProjectController {
 
 	async find(ctx) {
 		const params = ctx.query;
-		if (params.projectIds || params.projectIds === 0) params._id = params.projectIds.split(',');
-		delete params.projectIds;
+		const query = {};
+		for (let attr in params) {
+			if (params[attr] !== undefined && params[attr] !== '') {
+				let condition = {};
+				switch(attr) {
+					case 'projectIds':
+						condition.$in = params[attr].split(',');
+						query._id = condition;
+						break;
+					case 'staffIds':
+						condition.$elemMatch = {
+							memberId: {
+								$in: params[attr].split(',')
+							}
+						};
+						query.members = condition;
+						break;
+					case 'startDate':
+						condition.$gte = params[attr];
+						query[attr] = condition;
+						break;
+					case 'endDate':
+						condition.$lte = params[attr];
+						query[attr] = condition;
+						break;
+					default:
+						break;
+				}
+			}
+		}
 		await ProjectService
-			.findAll(params)
+			.findAll(query)
 			.then(data => {
 				ctx.status = 200;
 				ctx.body = data;
