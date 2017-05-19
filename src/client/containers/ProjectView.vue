@@ -56,6 +56,7 @@
 
 	import { ProjectResource, StaffResource } from '../common/resource';
 	import StaffService from '../services/StaffService';
+	import ProjectService from '../services/ProjectService';
 
 	const MAX_CANVAS_HEIGHT = 12000;
 	const CHART_PADDING = 60;
@@ -111,7 +112,7 @@
 					.then(this.search);
 			},
 			search: function() {
-				const [startDate, endDate] = this.queryParams.dateRange;
+				const [startDate, endDate] = this.queryParams.dateRange || [];
 				const params = {
 					startDate: startDate ? moment(startDate).format('YYYY-MM-DD') : '',
 					endDate: endDate ? moment(endDate).format('YYYY-MM-DD') : '',
@@ -189,6 +190,13 @@
 			},
 			generatorChartOptions: function(projectInfo, startDate, endDate) {
 				const projectCategory = [];
+				// 生成 tooltip
+				const tooltip = {
+					triggerOn: 'click',
+					padding: 5,
+					formatter: params => ProjectService.getProjectByName(this.projectList, params.name).target
+				};
+
 				let series = [];
 
 				[].forEach.call(projectInfo, (project, index) => {
@@ -217,9 +225,7 @@
 					title: {
 						show: false
 					},
-					tooltip: {
-						show: false
-					},
+					tooltip,
 					xAxis: [
 						{
 							type: 'time',
@@ -238,7 +244,7 @@
 							type: 'category',
 							name: "项目名称",
 							splitLine: {
-								show: false
+								show: true
 							},
 							data: projectCategory
 						}
