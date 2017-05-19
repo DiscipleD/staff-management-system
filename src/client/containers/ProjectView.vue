@@ -194,7 +194,8 @@
 				const tooltip = {
 					triggerOn: 'click',
 					padding: 5,
-					formatter: params => ProjectService.getProjectByName(this.projectList, params.name).target
+					formatter: params => ProjectService.getProjectByName(this.projectList, params.name).target,
+					extraCssText: 'max-width: 300px;white-space: normal;'
 				};
 
 				let series = [];
