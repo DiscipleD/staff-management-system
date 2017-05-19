@@ -42,12 +42,12 @@ class ProjectController {
 						query.members = condition;
 						break;
 					case 'startDate':
-						condition.$gte = params[attr];
-						query[attr] = condition;
+						condition.$gt = params[attr];
+						query['endDate'] = condition;
 						break;
 					case 'endDate':
-						condition.$lte = params[attr];
-						query[attr] = condition;
+						condition.$lt = params[attr];
+						query['startDate'] = condition;
 						break;
 					default:
 						break;

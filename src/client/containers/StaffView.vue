@@ -191,7 +191,7 @@
 				const series = [];
 				project.data.forEach(member => {
 					if (member.startDate > endDate) series.push(this.createSeriesItem(category, project.name, id, moment(member.startDate).subtract(1, 'days'), true));
-					series.push(this.createSeriesItem(category, project.name, id, member.endDate));
+					if (member.endDate > endDate) series.push(this.createSeriesItem(category, project.name, id, member.endDate));
 					endDate = member.endDate;
 				});
 

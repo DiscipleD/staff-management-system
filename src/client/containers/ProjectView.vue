@@ -182,7 +182,7 @@
 				const series = [];
 				memberArray.forEach(member => {
 					if (member.startDate > endDate) series.push(this.createSeriesItem(category, StaffService.getStaffById(this.staffList, member.memberId).name, member.memberId, moment(member.startDate).subtract(1, 'days'), true));
-					series.push(this.createSeriesItem(category, StaffService.getStaffById(this.staffList, member.memberId).name, member.memberId, member.endDate));
+					if (member.endDate > endDate) series.push(this.createSeriesItem(category, StaffService.getStaffById(this.staffList, member.memberId).name, member.memberId, member.endDate));
 					endDate = member.endDate;
 				});
 
