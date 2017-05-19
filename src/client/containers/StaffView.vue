@@ -47,7 +47,7 @@
 		}
 
 		#staff-chart {
-			height: 500px;
+			min-height: 500px;
 		}
 	}
 </style>
@@ -60,8 +60,10 @@
 	import 'echarts/lib/component/tooltip';
 
 	import { ProjectResource, StaffResource } from '../common/resource';
+	import StaffService from '../services/StaffService';
 
 	const MAX_CANVAS_HEIGHT = 12000;
+	const CHART_PADDING = 60;
 	const dateRangeOption = {
 		shortcuts: [{
 			text: '最近一周',
@@ -125,12 +127,14 @@
 				ProjectResource
 					.query(params)
 					.then(projectInfo => {
+						let staffList = this.staffList;
+						if (this.queryParams.staffIds.length) staffList = StaffService.filterStaffsByIds(this.staffList, this.queryParams.staffIds);
 						// 拉长画布
-						if (this.staffList.length && projectInfo.length) {
-							const expectHeight = this.staffList.length * projectInfo.length * 40;
+						if (projectInfo && projectInfo.length) {
+							const expectHeight = staffList.length * projectInfo.length * 50 + CHART_PADDING;
 							this.staffChartDom.style.height = `${expectHeight < MAX_CANVAS_HEIGHT ? expectHeight : MAX_CANVAS_HEIGHT}px`;
 						}
-						return this.generatorChartOptions(this.staffList, projectInfo, startDate, endDate);
+						return this.generatorChartOptions(staffList, projectInfo, params.startDate, params.endDate);
 					})
 					.then(this.drawChart);
 			},

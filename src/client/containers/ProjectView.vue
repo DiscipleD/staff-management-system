@@ -42,7 +42,7 @@
 		}
 
 		#project-chart {
-			height: 500px;
+			min-height: 500px;
 		}
 	}
 </style>
@@ -58,6 +58,7 @@
 	import StaffService from '../services/StaffService';
 
 	const MAX_CANVAS_HEIGHT = 12000;
+	const CHART_PADDING = 60;
 	const dateRangeOption = {
 		shortcuts: [{
 			text: '最近一周',
@@ -120,11 +121,12 @@
 					.query(params)
 					.then(projectInfo => {
 						// 拉长画布
-						if (this.staffList.length && projectInfo.length) {
-							const expectHeight = this.staffList.length * projectInfo.length * 40;
+						if (projectInfo.length) {
+							const staffList = StaffService.filterProjectsStaffs(this.staffList, projectInfo);
+							const expectHeight = staffList.length * projectInfo.length * 50 + CHART_PADDING;
 							this.projectChartDom.style.height = `${expectHeight < MAX_CANVAS_HEIGHT ? expectHeight : MAX_CANVAS_HEIGHT}px`;
 						}
-						return this.generatorChartOptions(projectInfo, startDate, endDate);
+						return this.generatorChartOptions(projectInfo, params.startDate, params.endDate);
 					})
 					.then(this.drawChart);
 			},
