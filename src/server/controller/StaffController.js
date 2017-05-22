@@ -23,6 +23,19 @@ class StaffController {
 			});
 	};
 
+	async update(ctx) {
+		const body = await bodyParser(ctx.request);
+		await StaffService
+			.update(ctx.params.id, body)
+			.then(() => {
+				ctx.status = 200;
+			})
+			.catch(msg => {
+				ctx.status = 409;
+				ctx.body = msg;
+			});
+	}
+
 	async find(ctx) {
 		await StaffService
 			.findAll()

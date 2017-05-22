@@ -20,12 +20,14 @@ const router = new KoaRouter();
 router.get(`${publicPath}/staffs`, StaffController.find);
 router.get(`${publicPath}/staffs/:id`, StaffController.findById);
 router.post(`${publicPath}/staffs`, StaffController.save);
+router.put(`${publicPath}/staffs/:id`, StaffController.update);
 router.del(`${publicPath}/staffs/:id`, StaffController.removeById);
 
 // project
 router.get(`${publicPath}/projects`, ProjectController.find);
 router.get(`${publicPath}/projects/:id`, ProjectController.findById);
 router.post(`${publicPath}/projects`, ProjectController.save);
+router.put(`${publicPath}/projects/:id`, ProjectController.update);
 router.del(`${publicPath}/projects/:id`, ProjectController.removeById);
 
 app

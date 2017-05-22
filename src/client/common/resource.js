@@ -16,6 +16,9 @@ const ProjectResource = {
 	create: project => axios
 		.post(`${URI_PREFIX}/projects`, project),
 
+	update: (id, project) => axios
+		.put(`${URI_PREFIX}/projects/${id}`, project),
+
 	remove: id => axios
 		.delete(`${URI_PREFIX}/projects/${id}`)
 };
@@ -27,6 +30,9 @@ const StaffResource = {
 
 	create: staff => axios
 		.post(`${URI_PREFIX}/staffs`, staff),
+
+	update: (id, staff) => axios
+		.put(`${URI_PREFIX}/staffs/${id}`, staff),
 
 	remove: id => axios
 		.delete(`${URI_PREFIX}/staffs/${id}`)

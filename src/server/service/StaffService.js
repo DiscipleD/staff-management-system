@@ -16,6 +16,10 @@ class StaffService {
 		}
 	}
 
+	update(id, staff = {}) {
+		return StaffModel.findByIdAndUpdate(id, staff);
+	}
+
 	findAll() {
 		return StaffModel.find();
 	}

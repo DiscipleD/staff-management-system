@@ -13,7 +13,9 @@
 					<el-input v-model="staff.position"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="create">保存</el-button>
+					<el-button type="primary" v-if="!staff._id && staff._id !== 0" @click="save">保存</el-button>
+					<el-button type="primary" v-else @click="save">编辑</el-button>
+					<el-button type="primary" @click="reset">取消</el-button>
 				</el-form-item>
 			</el-form>
 
@@ -23,6 +25,7 @@
 				<el-table-column prop="position" label="职位"></el-table-column>
 				<el-table-column label="操作">
 					<template scope="scope">
+						<el-button @click="edit(scope.$index)" type="text" size="small">编辑</el-button>
 						<el-button @click="remove(scope.$index)" type="text" size="small">删除</el-button>
 					</template>
 				</el-table-column>
@@ -49,6 +52,7 @@
 
 <script>
 	import { StaffResource } from '../common/resource';
+	import { copy } from '../common/utils';
 
 	const defaultStaff = {
 		name: '',
@@ -74,13 +78,18 @@
 						this.tableData = data;
 					});
 			},
-			create: function() {
-				StaffResource
-					.create(this.staff)
-					.then(() => this.$message.success('添加成功'))
-					.then(() => (this.staff = { ...defaultStaff }))
-					.catch(() => this.$message.error('添加失败'))
+			save: function() {
+				const params = this.staff;
+				const request = params._id === undefined ? StaffResource.create(params) : StaffResource.update(params._id, params);
+
+				request
+					.then(() => this.$message.success('保存成功'))
+					.then(this.reset)
+					.catch(() => this.$message.error('保存失败'))
 					.then(this.query);
+			},
+			edit: function(index) {
+				this.staff = copy(this.tableData[index]);
 			},
 			remove: function(index) {
 				const staffId = this.tableData[index]._id;
@@ -88,6 +97,9 @@
 					.remove(staffId)
 					.then(() => this.$message.success('删除成功'))
 					.then(this.query);
+			},
+			reset: function() {
+				this.staff = { ...defaultStaff };
 			}
 		}
 	};

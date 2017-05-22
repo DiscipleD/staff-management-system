@@ -16,6 +16,10 @@ class ProjectService {
 		}
 	}
 
+	update(id, project = {}) {
+		return ProjectModel.findByIdAndUpdate(id, project);
+	}
+
 	findAll(query) {
 		return ProjectModel.find(query);
 	}

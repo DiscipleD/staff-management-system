@@ -57,7 +57,9 @@
 				</div>
 
 				<el-form-item class="save-button">
-					<el-button type="primary" @click="create">保存</el-button>
+					<el-button type="primary" v-if="!project._id && project._id !== 0" @click="save">保存</el-button>
+					<el-button type="primary" v-else @click="save">编辑</el-button>
+					<el-button type="primary" @click="reset">取消</el-button>
 				</el-form-item>
 			</el-form>
 
@@ -83,6 +85,7 @@
 				<el-table-column prop="target" label="项目目标"></el-table-column>
 				<el-table-column label="操作">
 					<template scope="scope">
+						<el-button @click="edit(scope.$index)" type="text" size="small">编辑</el-button>
 						<el-button @click="remove(scope.$index)" type="text" size="small">删除</el-button>
 					</template>
 				</el-table-column>
@@ -120,6 +123,8 @@
 
 <script>
 	import moment from 'moment';
+
+	import { copy } from '../common/utils';
 	import { ProjectResource, StaffResource } from '../common/resource';
 
 	const defaultMember = {
@@ -163,7 +168,7 @@
 						this.staffList = data;
 					});
 			},
-			create: function() {
+			save: function() {
 				const params = {
 					...this.project,
 					startDate: moment(this.project.startDate).format('YYYY-MM-DD'),
@@ -175,17 +180,24 @@
 					}))
 				};
 
-				ProjectResource.create(params)
-					.then(() => this.$message.success('添加成功'))
-					.then(() => (this.project = { ...defaultProject, members: [{ ...defaultMember }] }))
-					.catch(() => this.$message.error('添加失败'))
+				const request = params._id === undefined ? ProjectResource.create(params) : ProjectResource.update(params._id, params);
+				request
+					.then(() => this.$message.success('保存成功'))
+					.then(this.reset)
+					.catch(() => this.$message.error('保存失败'))
 					.then(this.query);
+			},
+			edit: function(index) {
+				this.project = copy(this.tableData[index]);
 			},
 			remove: function(index) {
 				const projectId = this.tableData[index]._id;
 				ProjectResource.remove(projectId)
 					.then(() => this.$message.success('删除成功'))
 					.then(this.query);
+			},
+			reset: function() {
+				this.project = { ...defaultProject, members: [{ ...defaultMember }] };
 			},
 			addMember(index) {
 				this.project.members.splice(index + 1, 0, { ...defaultMember });
